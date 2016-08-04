@@ -1,0 +1,48 @@
+---
+title: Time required for plink to run on Biobank
+date: "`r Sys.Date()`"
+output: 
+  pdf_document
+---
+
+```{r, echo=FALSE}
+suppressPackageStartupMessages(suppressWarnings(library(knitr)))
+opts_chunk$set(warning=FALSE, message=FALSE, echo=FALSE, cache=FALSE)
+```
+
+```{r }
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(lubridate))
+
+# Read in times and lengths
+a <- read.table("times.txt", sep=",", stringsAsFactors=FALSE)
+a$time <- ymd_hms(as.POSIXct(strptime(a$V3, "%a %b %e %T %Y")))
+
+b <- group_by(a, V1) %>% dplyr::summarise(hrs = (time[1] %--% time[2]) / dhours(1)) %>% as.data.frame()
+b$nsnp <- scan("lengths.txt", numeric())
+names(b)[1] <- "chr"
+
+```
+
+Timings for:
+
+- 120000 samples
+- 15 covariates
+- linear model
+- `r formatC(sum(b$nsnp), digits=7)` SNPs
+- Single core per chromosome
+
+```{r }
+kable(b)
+```
+
+```{r }
+plot(hrs ~ nsnp, b, ylim=c(0,37), xlim=c(0,8e5), xlab="Number of SNPs", ylab="Time (hours)")
+abline(lm(hrs ~ nsnp, b))
+```
+
+**Total time for a single core:** `r round(sum(b$hrs),2)` hours.
+
+**Predicted time for 28 cores:** `r round(sum(b$hrs) / 28,2)` hours.
+
+**Note:** Running chr 22 again on its took 3.75 hours, substantially less than when things are run together. This is probably because 16 cores reading in data concurrently led to a much longer read-in time. Reducing the biobank data size in terms of number of SNPs would probably improve things, these analyses were run on the unfiltered data.
