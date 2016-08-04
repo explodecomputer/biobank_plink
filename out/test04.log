@@ -1,0 +1,37 @@
+PLINK v1.90b3w 64-bit (3 Sep 2015)
+Options in effect:
+  --allow-no-sex
+  --bfile /panfs/panasas01/shared-biobank/data/bestguess/data_chr04
+  --covar /panfs/panasas01/shared-biobank/data/derived/principal_components/data.txt
+  --linear
+  --maf 0.01
+  --mpheno 1
+  --out test04
+  --pheno phen.txt
+
+Hostname: node31-043
+Working directory: /panfs/panasas01/sscm/gh13047/sandpit/biobank_plink
+Start time: Mon Aug  1 15:39:13 2016
+
+Random number seed: 1470062353
+64499 MB RAM detected; reserving 32249 MB for main workspace.
+5112559 variants loaded from .bim file.
+152249 people (0 males, 0 females, 152249 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to test04.nosex .
+120000 phenotype values present after --pheno.
+Using 1 thread.
+Warning: This run includes BLAS/LAPACK linear algebra operations which
+currently disregard the --threads limit.  If this is problematic, you may want
+to recompile against single-threaded BLAS/LAPACK.
+--covar: 15 covariates loaded.
+1 person had missing value(s).
+Before main variant filters, 152249 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.995123.
+4421498 variants removed due to minor allele threshold(s)
+(--maf/--max-maf/--mac/--max-mac).
+691061 variants and 152249 people pass filters and QC.
+Phenotype data is quantitative.
+Writing linear model association results to test04.assoc.linear ... done.
+
+End time: Wed Aug  3 01:16:49 2016
